@@ -45,18 +45,19 @@ def t_LANGTAG(t):
     t.value = t.value[1:]
     return t
 
-    
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)    
+
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
 lexer = lex.lex()
 
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        # Join all command-line arguments into a single string
-        s = " ".join(sys.argv[1:])
-        lexer.input(s)
-        for tok in iter(lexer.token, None):
-            print(tok)
+if __name__ == "__main__":    
+    s = sys.stdin.read()
+    lexer.input(s)
+    for tok in iter(lexer.token, None):
+        print(tok)   
     
